@@ -77,7 +77,7 @@ export  const updateProduct =async (req,res)=>{
         }
 
         if(name) product.name = name;
-        if(price) product.price = parseFloat(price);
+        if(price!=undefined) product.price = parseFloat(price);
         if(description) product.description = description;
         if(stock!=undefined) product.stock = parseInt(stock);
         if(category) product.category = category;
