@@ -24,7 +24,12 @@ app.get('/api/health',(req,res)=>{
 //     })
 // }
 
-app.listen(ENV.PORT,()=>{
-    console.log("Server is up and runnning on port 4000");
-    ConnectDb();
-})
+
+const startServer=async()=>{
+    await ConnectDb();
+    app.listen(ENV.PORT,()=>{
+        console.log("Server is up and runnning on port 4000");
+    })
+}
+
+startServer();
