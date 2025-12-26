@@ -26,7 +26,7 @@ const cartSchema = new mongoose.Schema({
         required:true,
         unique:true,
     },
-    item:[cartItemSchema]
+    items:[cartItemSchema]
 },{timestamps:true})
 
 

@@ -9,10 +9,13 @@ import userRoutes from './routes/user.route.js';
 import orderRoutes from './routes/order.route.js';
 import reviewRoutes from './routes/review.route.js';
 import productRoutes from './routes/product.route.js';
+import cartRoutes from './routes/cart.route.js';
 import { functions,inngest } from './config/inngest.js';
+import cors from 'cors'
 
 
 const app = express();
+app.use(cors({origin:ENV.CLIENT_URL,credentials:true})); // credential :true -> allows to the browser to send cookies to the server with the request
 app.use(express.json());
 app.use(clerkMiddleware()); // req.auth
 
@@ -31,6 +34,7 @@ app.use("/api/users",userRoutes);
 app.use("/api/order",orderRoutes);
 app.use("/api/reviews",reviewRoutes);
 app.use("/api/products",productRoutes);
+app.use("/api/cart",cartRoutes);
 
 // if(ENV.NODE_ENV=="production"){
 //     app.use(express.static(path.join(__dirname,"../admin/dist")))
