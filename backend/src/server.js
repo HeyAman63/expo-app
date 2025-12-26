@@ -4,7 +4,8 @@ import path from 'path';
 import { ConnectDb } from './config/db.js';
 import {clerkMiddleware} from '@clerk/express'
 import {serve} from 'inngest/express'
-import adminRoutes from './routes/admin.route.js'
+import adminRoutes from './routes/admin.route.js';
+import userRoutes from './routes/user.route.js';
 import { functions,inngest } from './config/inngest.js';
 
 
@@ -23,6 +24,7 @@ app.get('/api/health',(req,res)=>{
 });
 
 app.use("/api/admin",adminRoutes);
+app.use("/api/users",userRoutes);
 
 // if(ENV.NODE_ENV=="production"){
 //     app.use(express.static(path.join(__dirname,"../admin/dist")))
