@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
 import ProductsPage from './pages/ProductsPage'
 import OrderPage from './pages/OrderPage'
-import CustomersPage from './pages/customersPage'
+import CustomersPage from './pages/CustomersPage'
 import DashboardLayout from './layout/dashboardLayout'
 import Pageloader from './components/Pageloader'
 
