@@ -110,8 +110,8 @@ export  const updateProduct =async (req,res)=>{
 
 export const getAllOrders = async(req,res)=>{
     try {
-        const order = await Order.find().populate("user","name email").populate("orderItems.product");
-        res.status(200).json({order});
+        const orders = await Order.find().populate("user","name email").populate("orderItems.product");
+        res.status(200).json({orders});
     } catch (error) {
         console.log("Errors in get all products controllers");
         res.status(500).json({error:"Internal server error"});
