@@ -1,12 +1,12 @@
 import React from 'react'
-import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from '@clerk/clerk-react'
+import { useAuth } from '@clerk/clerk-react'
 import {Navigate, Route, Routes} from 'react-router'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
 import ProductsPage from './pages/ProductsPage'
 import OrderPage from './pages/OrderPage'
 import CustomersPage from './pages/CustomersPage'
-import DashboardLayout from './layout/dashboardLayout'
+import DashboardLayout from './layout/DashboardLayout'
 import Pageloader from './components/Pageloader'
 
 const App = () => {
