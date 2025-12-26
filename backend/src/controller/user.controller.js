@@ -2,9 +2,12 @@ import { User } from "../models/user.model.js";
 
 export const Addaddresses = async (req,res)=>{
     try {
-        const {label,fullName,state,pinCode, isDefault,phoneNumber,streetAddress,city} = res.body;
+        const {label,fullName,state,pinCode, isDefault,phoneNumber,streetAddress,city} = req.body;
         const user = req.user;
 
+        if(!label || !fullName || !state || !pinCode || !phoneNumber || !streetAddress || !city){
+            return res.status(400).json({message:"all field are required"});
+        }
         // if this is set as default, unset all other defaults
         if(isDefault){
             user.addresses.forEach(addr => {
@@ -46,7 +49,7 @@ export const getAddresses = async (req,res)=>{
 export const updateAddress = async (req,res)=>{
     try {
         const {addressId} = req.params;
-        const {label,fullName,state,pinCode, isDefault,phoneNumber,streetAddress,city} = res.body;
+        const {label,fullName,state,pinCode, isDefault,phoneNumber,streetAddress,city} = req.body;
         const user = req.user;
         const address = user.addresses.id(addressId);
         if(!address){
