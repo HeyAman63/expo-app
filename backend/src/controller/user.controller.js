@@ -1,10 +1,13 @@
+import mongoose from "mongoose";
 import { User } from "../models/user.model.js";
 
-export const Addaddresses = async (req,res)=>{
+export const addAddresses = async (req,res)=>{
     try {
         const {label,fullName,state,pinCode, isDefault,phoneNumber,streetAddress,city} = req.body;
         const user = req.user;
-
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});
+        }
         if(!label || !fullName || !state || !pinCode || !phoneNumber || !streetAddress || !city){
             return res.status(400).json({message:"all field are required"});
         }
@@ -38,6 +41,9 @@ export const Addaddresses = async (req,res)=>{
 export const getAddresses = async (req,res)=>{
     try {
         const user = req.user;
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});
+        }
         res.status(200).json({addresses:user.addresses});
 
     } catch (error) {
@@ -51,6 +57,12 @@ export const updateAddress = async (req,res)=>{
         const {addressId} = req.params;
         const {label,fullName,state,pinCode, isDefault,phoneNumber,streetAddress,city} = req.body;
         const user = req.user;
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});
+        }
+        if(!mongoose.Types.ObjectId.isValid(addressId)){
+            return res.status(400).json({message:"Invalid address ID"});
+        }
         const address = user.addresses.id(addressId);
         if(!address){
             return res.status(404).json({message:"Address not found"});
@@ -87,6 +99,12 @@ export const deleteAddress = async (req,res)=>{
     try {
         const {addressId} = req.params;
         const user = req.user;
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});
+        }
+        if(!mongoose.Types.ObjectId.isValid(addressId)){
+            return res.status(400).json({message:"Invalid address ID"});
+        }
         user.addresses.pull(addressId);
         await user.save();
         res.status(200).json({message:"Address deleted successfully",addresses:user.addresses})
@@ -101,6 +119,14 @@ export const addToWishlist = async (req,res)=>{
     try {
         const {productId} = req.body;
         const user = req.user;
+
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});
+        }
+        if(!productId || !mongoose.Types.ObjectId.isValid(productId)){
+            return res.status(400).json({message:"Invalid product ID"});
+        }
+
         // check if the product is already in wishlist
         if(user.wishList.includes(productId)){
             return res.status(400).json({error:"Product Already in wishList"});
@@ -122,6 +148,13 @@ export const removeFromWishlist = async (req,res)=>{
         const {productId} = req.params;
         const user = req.user;
 
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});
+        }
+        if(!mongoose.Types.ObjectId.isValid(productId)){
+            return res.status(400).json({message:"Invalid Product ID"});
+        }
+
         if(!user.wishList.includes(productId)){
             return res.status(400).json({error:"Product not even in the wishList"});
         }
@@ -138,6 +171,11 @@ export const removeFromWishlist = async (req,res)=>{
 export const getWishlist = async (req,res)=>{
     try {
         const user = req.user;
+
+        if(!user){
+            return res.status(401).json({message:"Unauthorized"});
+        }
+
         res.status(200).json({wishList:user.wishList});
     } catch (error) {
         console.log("Error in getWishlist controller",error.message);
