@@ -173,9 +173,6 @@ export const getWishlist = async (req,res)=>{
         //we are using populate because wishList is an arrary of products ids
         const user = await User.findById(req.user._id).populate("wishList");
 
-        if(!user){
-            return res.status(401).json({message:"Unauthorized"});
-        }
 
         res.status(200).json({wishList:user.wishList});
     } catch (error) {
