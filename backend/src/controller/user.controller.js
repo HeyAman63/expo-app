@@ -170,7 +170,8 @@ export const removeFromWishlist = async (req,res)=>{
 
 export const getWishlist = async (req,res)=>{
     try {
-        const user = req.user;
+        //we are using populate because wishList is an arrary of products ids
+        const user = await User.findById(req.user._id).populate("wishList");
 
         if(!user){
             return res.status(401).json({message:"Unauthorized"});
