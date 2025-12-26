@@ -13,12 +13,12 @@ export const createOrder = async(req,res)=>{
 
         // validate products and stock
         for (const item of orderItems){
-            const product = await Product.findById(item._id);
+            const product = await Product.findById(item.product._id);
             if(!product){
                 return res.status(404).json({error:`Product ${item.name} not found`});
             }
             if(product.stock<item.quantity){
-                return res.status(404).json({error:`insufficient stock for ${item.name} `});
+                return res.status(400).json({error:`insufficient stock for ${item.name} `});
             }
         }
 
@@ -49,17 +49,20 @@ export const getUsersOrder = async(req,res)=>{
         const orders = await Order.find({clerkId:req.user.clerkId}).populate("orderItems.product").sort({createdAt:-1});
 
         // check if the each order has been reviewed
-        const orderWithReviewStatus = await Promise.all(
-            orders.map(async(order)=>{
-                const review = await Review.findOne({orderId:order._id});
-                return {
-                    ...order.toObject(),
-                    hasReviewed: !!review
-                }
-            })
-        )
+        const orderIds = orders.map((order) => order._id);
+        const reviews = await Review.find({ orderId: { $in: orderIds } });
+        const reviewedOrderIds = new Set(reviews.map((review) => review.orderId.toString()));
 
-        res.status(200).josn({orders:orderWithReviewStatus});
+        const ordersWithReviewStatus = await Promise.all(
+        orders.map(async (order) => {
+            return {
+            ...order.toObject(),
+            hasReviewed: reviewedOrderIds.has(order._id.toString()),
+            };
+        })
+        );
+
+        res.status(200).json({orders:ordersWithReviewStatus});
     } catch (error) {
         console.log("Error in create order controller",error.message);
         res.status(500).json({error:"Internal server error"})
