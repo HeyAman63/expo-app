@@ -54,14 +54,15 @@ export  const createProduct =async (req,res)=>{
 export  const getAllProducts =async (req,res)=>{
 
     try {
-        // -1 means in desc order : most recent products first
-        const products = (await Product.find()).toSorted({createdAt:-1}) ;
+        // -1 means descending order (latest products first)
+        const products = await Product.find().sort({ createdAt: -1 });
+
         res.status(200).json(products);
     } catch (error) {
-        console.log("error fetching products",error.message);
-        res.status(500).json({message:"Internal server error"});
-        
+        console.log("error fetching products", error.message);
+        res.status(500).json({ message: "Internal server error" });
     }
+
 }
 
 
@@ -182,6 +183,19 @@ export const getDashboardStats = async(req,res)=>{
     } catch (error) {
         console.error("error getting total stats in controller ",error.message);
         res.status(500).json({error:"internal server error"});
+        
+    }
+}
+
+
+export const deleteProduct = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        await Product.findByIdAndDelete(id);
+        res.status(200).json({message:"Product deleted successfully"});
+    } catch (error) {
+        console.error("Errore in deletProduct controller",error.message);
+        res.status(500).json({"message":"internal server error"});
         
     }
 }

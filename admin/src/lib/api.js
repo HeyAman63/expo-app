@@ -3,7 +3,7 @@ import axiosInstance from './axios.js'
 
 export const productApi = {
     getll : async()=>{
-        const {data}=await axiosInstance.get('/admin.products');
+        const {data}=await axiosInstance.get('/admin/products');
         return data;
     },
     create:async(formData)=>{
@@ -12,6 +12,10 @@ export const productApi = {
     },
     update:async ({id, formData})=>{
         const {data} = await axiosInstance.put(`/admin/products/${id}`,formData)
+        return data;
+    },
+    delete:async (productId)=>{
+        const {data} = await axiosInstance.delete(`/admin/products/${productId}`)
         return data;
     },
 
