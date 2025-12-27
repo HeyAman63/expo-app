@@ -39,3 +39,10 @@ export const statsApi = {
     },
     
 }
+
+export const customerApi = {
+    getall:async ()=>{
+        const {data} = await axiosInstance.get('/admin/customers');
+        return data;
+    }
+}
