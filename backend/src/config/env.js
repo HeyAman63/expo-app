@@ -4,7 +4,7 @@ dotenv.config({quiet:true});
 
 export const ENV = {
     NODE_ENV : process.env.NODE_ENV,
-    PORT : process.env.PORT,
+    PORT : Number(process.env.PORT) || 5000,
     DB_URI : process.env.DB_URI,
     CLERK_SECRET_KEY : process.env.CLERK_SECRET_KEY,
     CLERK_PUBLISHABLE_KEY : process.env.CLERK_PUBLISHABLE_KEY,
@@ -13,5 +13,5 @@ export const ENV = {
     CLOUDINARY_SECRET_KEY : process.env.CLOUDINARY_SECRET_KEY,
     CLOUDINARY_CLOUD_NAME : process.env.CLOUDINARY_CLOUD_NAME,
     ADMIN_EMAIL : process.env.ADMIN_EMAIL,
-    CLIENT_URL: process.env.CLIENT_URL
+    CLIENT_URL: (process.env.CLIENT_URL || '').toString().trim().replace(/^['"]|['"]$/g, ''),
 }

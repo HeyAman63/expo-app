@@ -5,8 +5,9 @@ import axios from "axios";
 // : "http://localhost:4000/api";
 
 const axiosInstance = axios.create({
-    baseURL:import.meta.env.VITE_SERVER_URL,
+    baseURL:import.meta.env.VITE_API_URL,
     withCredentials:true, // send the cookies by browser to server with request automatically
 });
 
+console.log(import.meta.env.VITE_API_URL);
 export default axiosInstance;

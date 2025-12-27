@@ -1,6 +1,5 @@
 import express from 'express'
 import { ENV } from './config/env.js'
-import path from 'path';
 import { ConnectDb } from './config/db.js';
 import {clerkMiddleware} from '@clerk/express'
 import {serve} from 'inngest/express'
@@ -23,7 +22,7 @@ app.use('/api/inngest',serve({client:inngest, functions}));
 
 // const __dirname = path.resolve();
 
-app.get('/api/health',(req,res)=>{
+app.get('/',(req,res)=>{
     res.status(200).json({
         "message":"Success"
     })
@@ -46,7 +45,7 @@ app.use("/api/cart",cartRoutes);
 const startServer = async()=>{
     await ConnectDb();
     app.listen(ENV.PORT,()=>{
-        console.log("Server is up and runnning on port 4000");
+        console.log(`Server is up and running on port ${ENV.PORT}`);
     })
 }
 
