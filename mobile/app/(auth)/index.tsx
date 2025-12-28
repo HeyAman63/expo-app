@@ -4,7 +4,7 @@ import useSocialAuth from '@/hooks/useSocialAuth'
 
 
 const AuthScreen = () => {
-  const {handleSocialAuth,isLoading}=useSocialAuth();
+  const {handleSocialAuth,loadingStrategy}=useSocialAuth();
   return (
     <View className='flex-1 px-8 justify-center items-center bg-white'>
       {/* demoImage */}
@@ -16,16 +16,16 @@ const AuthScreen = () => {
       <View className='gap-2 mt-4'>
         {/* Google signin button */}
         <TouchableOpacity
-          className='flex flex-row items-center justify-center bg-white border border-gray-300 rounded-full px-6'
+          className='flex h-14 flex-row items-center justify-center bg-white border border-gray-300 rounded-full px-6'
           onPress={()=>handleSocialAuth("oauth_google")}
-          disabled={isLoading}
+          disabled={loadingStrategy !== null}
           style={{
             shadowOffset:{width:0,height:1},
             shadowOpacity:0.1,
             elevation:2 // this is for android 
           }}
         >
-          {isLoading?(
+          {loadingStrategy == "oauth_google"?(
             <ActivityIndicator size={"small"} color={"#4285f4"}/>
           ):(
             <View className='flex-row items-center justify-center px-5 py-2'>
@@ -37,16 +37,16 @@ const AuthScreen = () => {
 
         {/* Apple signin button */}
         <TouchableOpacity
-          className='flex flex-row items-center justify-center bg-white border border-gray-300 rounded-full px-6'
+          className='flex flex-row h-14 items-center justify-center bg-white border border-gray-300 rounded-full px-6'
           onPress={()=>handleSocialAuth("oauth_apple")}
-          disabled={isLoading}
+          disabled={loadingStrategy !== null}
           style={{
             shadowOffset:{width:0,height:1},
             shadowOpacity:0.1,
             elevation:2 // this is for android 
           }}
         >
-          {isLoading?(
+          {loadingStrategy=="oauth_apple"?(
             <ActivityIndicator size={"small"} color={"#4285f4"}/>
           ):(
             <View className='flex-row items-center justify-center px-5 py-2'>

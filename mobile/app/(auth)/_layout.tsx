@@ -3,8 +3,6 @@ import { useAuth } from '@clerk/clerk-expo'
 
 export default function AuthRoutesLayout() {
   const { isSignedIn,userId } = useAuth();
-  console.log(userId);
-  console.log(isSignedIn);
   
 
   // if (isSignedIn) {
