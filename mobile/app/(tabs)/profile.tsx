@@ -53,7 +53,7 @@ const ProfileScreen = () => {
                   {user?.firstName} {user?.lastName}
                 </Text>
                 <Text className='text-text-secondary text-sm'>
-                  {user?.emailAddresses[0].emailAddress}
+                  {user?.emailAddresses?.[0]?.emailAddress || "No Email"}
                 </Text>
               </View>
             </View>
