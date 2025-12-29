@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity, ScrollView, TextInput, Switch, ActivityIndicator } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, ScrollView, TextInput, Switch, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native'
 import React from 'react'
 import SafeScreen from './safeScreen';
 import { Ionicons } from '@expo/vector-icons';
@@ -26,11 +26,15 @@ interface AddressFormModalProps {
   onFormChange: (form: AddressFormData) => void;
 }
 
-const AddressFromModal = ({addressForm,isAddingAddress,isEditing,isUpdatingAddress,onClose,onFormChange,onSave,visible}:AddressFormModalProps) => {
+const AddressFromModal = ({ addressForm, isAddingAddress, isEditing, isUpdatingAddress, onClose, onFormChange, onSave, visible }: AddressFormModalProps) => {
   return (
     <Modal visible={visible} animationType='slide' transparent onRequestClose={onClose}>
-      <SafeScreen>
-        {/* Header */}
+      <KeyboardAvoidingView
+      behavior={Platform.OS=="ios"?"padding":"height"}
+      className='flex-1'
+      >
+        <SafeScreen>
+          {/* Header */}
           <View className="px-6 py-5 border-b border-surface flex-row items-center justify-between">
             <Text className="text-text-primary text-2xl font-bold">
               {isEditing ? "Edit Address" : "Add New Address"}
@@ -46,31 +50,31 @@ const AddressFromModal = ({addressForm,isAddingAddress,isEditing,isUpdatingAddre
             showsVerticalScrollIndicator={false}
           >
             <View className='p-6 '>
-                {/* lable */}
-                <View className='mb-5 '>
-                    <Text className='text-text-primary font-semibold mb-2'>label</Text>
-                    <TextInput 
-                    className='bg-surface text-text-primary p-4 rounded-2xl text-base'
-                    placeholder='e.g., Home, Work, Office'
-                    placeholderTextColor={"#666"}
-                    value={addressForm.label}
-                    onChangeText={(text)=> onFormChange({...addressForm,label:text})}
-                    />
-                </View>
+              {/* lable */}
+              <View className='mb-5 '>
+                <Text className='text-text-primary font-semibold mb-2'>label</Text>
+                <TextInput
+                  className='bg-surface text-text-primary p-4 rounded-2xl text-base'
+                  placeholder='e.g., Home, Work, Office'
+                  placeholderTextColor={"#666"}
+                  value={addressForm.label}
+                  onChangeText={(text) => onFormChange({ ...addressForm, label: text })}
+                />
+              </View>
 
-                {/* Name Input */}
-                <View className="mb-5">
-                    <Text className="text-text-primary font-semibold mb-2">Full Name</Text>
-                    <TextInput
-                    className="bg-surface text-text-primary px-4 py-4 rounded-2xl text-base"
-                    placeholder="Enter your full name"
-                    placeholderTextColor="#666"
-                    value={addressForm.fullName}
-                    onChangeText={(text) => onFormChange({ ...addressForm, fullName: text })}
-                    />
-                </View>
+              {/* Name Input */}
+              <View className="mb-5">
+                <Text className="text-text-primary font-semibold mb-2">Full Name</Text>
+                <TextInput
+                  className="bg-surface text-text-primary px-4 py-4 rounded-2xl text-base"
+                  placeholder="Enter your full name"
+                  placeholderTextColor="#666"
+                  value={addressForm.fullName}
+                  onChangeText={(text) => onFormChange({ ...addressForm, fullName: text })}
+                />
+              </View>
 
-                {/* Address Input */}
+              {/* Address Input */}
               <View className="mb-5">
                 <Text className="text-text-primary font-semibold mb-2">Street Address</Text>
                 <TextInput
@@ -158,7 +162,8 @@ const AddressFromModal = ({addressForm,isAddingAddress,isEditing,isUpdatingAddre
               </TouchableOpacity>
             </View>
           </ScrollView>
-      </SafeScreen>
+        </SafeScreen>
+      </KeyboardAvoidingView>
     </Modal>
   )
 }
