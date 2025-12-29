@@ -31,7 +31,7 @@ export interface Address {
   streetAddress: string;
   city: string;
   state: string;
-  zipCode: string;
+  pinCode: string;
   phoneNumber: string;
   isDefault: boolean;
 }
@@ -46,7 +46,7 @@ export interface Order {
     streetAddress: string;
     city: string;
     state: string;
-    zipCode: string;
+    pinCode: string;
     phoneNumber: string;
   };
   paymentResult: {
