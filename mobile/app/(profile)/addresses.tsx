@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, ActivityIndicator, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import SafeScreen from '@/component/safeScreen'
 import useAddresses from '@/hooks/useAddresses'
@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 import AddressesHeader from '@/component/AddressesHeader'
 import { Address } from '@/types'
 import AddressFromModal from '@/component/AddressFromModal'
+import AddressCard from '@/component/AddressCard'
 
 const AddressScreen = () => {
 
@@ -133,7 +134,35 @@ const AddressScreen = () => {
           </TouchableOpacity>
         </View>
       ):(
-        <Text className='text-white'>You have some address</Text>
+        <ScrollView
+        className='flex-1'
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom:100}}
+        >
+          <View className='px-6 py-4'>
+            {addresses.map((address) => (
+              <AddressCard
+                key={address._id}
+                address={address}
+                onEdit={handleEditAddress}
+                onDelete={handleDeleteAddress}
+                isUpdatingAddress={isUpdatingAddress}
+                isDeletingAddress={isDeletingAddress}
+              />
+            ))}
+
+            <TouchableOpacity
+              className="bg-primary rounded-2xl py-4 items-center mt-2"
+              activeOpacity={0.8}
+              onPress={handleAddAddress}
+            >
+              <View className="flex-row items-center">
+                <Ionicons name="add-circle-outline" size={24} color="#121212" />
+                <Text className="text-background font-bold text-base ml-2">Add New Address</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       )}
       <AddressFromModal
         visible={showAddressForm}
