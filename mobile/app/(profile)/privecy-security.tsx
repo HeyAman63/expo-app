@@ -239,7 +239,7 @@ const PrivecySecurityScreen = () => {
         {/* DELETE ACC BTN */}
         <View className="px-6 pt-4">
           <TouchableOpacity
-            className="bg-surface rounded-2xl p-10 flex-row items-center justify-between border-2 border-red-500/20"
+            className="bg-surface rounded-2xl p-4 flex-row items-center justify-between border-2 border-red-500/20"
             activeOpacity={0.7}
           >
             <View className="flex-row items-center">
