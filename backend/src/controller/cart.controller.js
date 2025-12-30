@@ -12,9 +12,8 @@ export const getCart = async (req, res) => {
         clerkId: user.clerkId,
         user: user._id,
         items: [],
-      });
+      }); 
     }
-
     res.status(200).json({ cart });
   } catch (error) {
     console.error("Error in get cart controller", error.message);
