@@ -13,9 +13,9 @@ export const getCart = async (req, res) => {
         user: user._id,
         items: [],
       });
-
-      res.status(200).json({ cart });
     }
+
+    res.status(200).json({ cart });
   } catch (error) {
     console.error("Error in get cart controller", error.message);
     res.status(500).json({ message: "Internal seerver error" });

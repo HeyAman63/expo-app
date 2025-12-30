@@ -71,8 +71,7 @@ const AddressScreen = () => {
       !addressForm.city ||
       !addressForm.state ||
       !addressForm.pinCode ||
-      !addressForm.phoneNumber||
-      !addressForm.isDefault
+      !addressForm.phoneNumber
     ){
       Alert.alert("Failed","Please fill all the fields");
       return;
