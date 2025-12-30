@@ -8,8 +8,12 @@ const Dashboard = () => {
 
   const { data: ordersData, isLoading: ordersLoading } = useQuery({
     queryKey: ["orders"],
-    queryFn: orderApi.getAll,
+    queryFn: orderApi.getall,
   });
+
+  console.log('====================================');
+  console.log(ordersData);
+  console.log('====================================');
 
   const { data: statsData, isLoading: statsLoading } = useQuery({
     queryKey: ["dashboardStats"],

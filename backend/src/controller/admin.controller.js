@@ -120,8 +120,42 @@ export const updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
     const { status } = req.body;
-    if (!["pending", "shiped", "delivered"].includes(status)) {
-      res.status(400).json({ error: "invalid status" });
+
+    // Debug: log incoming body to help diagnose client issues
+    console.log("updateOrderStatus - orderId:", orderId, "body:", req.body);
+
+    // Extra debug: show typeof and character codes to catch hidden chars
+    try {
+      console.log("status value:", status);
+      console.log("status typeof:", typeof status);
+      if (typeof status === "string") {
+        console.log(
+          "status charCodes:",
+          status.split("").map((c) => c.charCodeAt(0))
+        );
+      }
+    } catch (logErr) {
+      console.log("Error logging status details:", logErr);
+    }
+
+    if (status === undefined || status === null) {
+      return res.status(400).json({ error: "status is required in request body" });
+    }
+
+    // normalize status: accept strings with extra spaces or different case
+    let normalizedStatus = status;
+    if (typeof normalizedStatus !== "string") {
+      try {
+        normalizedStatus = String(normalizedStatus);
+      } catch (e) {
+        return res.status(400).json({ error: "invalid status type" });
+      }
+    }
+    normalizedStatus = normalizedStatus.trim().toLowerCase();
+
+    const allowed = ["pending", "shipped", "delivered"];
+    if (!allowed.includes(normalizedStatus)) {
+      return res.status(400).json({ error: `invalid status. allowed: ${allowed.join(", ")}` });
     }
 
     const order = await Order.findById(orderId);
@@ -130,16 +164,19 @@ export const updateOrderStatus = async (req, res) => {
     }
 
     order.status = status;
-    if (order.status == "shipped" && !order.shipedAt) {
-      order.shipedAt = new Date();
+
+    // 2. Ensure consistency here as well
+    if (order.status === "shipped" && !order.shippedAt) {
+      order.shippedAt = new Date();
     }
-    if (order.status == "delivered" && !order.deliveredAt) {
+    if (order.status === "delivered" && !order.deliveredAt) {
       order.deliveredAt = new Date();
     }
-    order.save();
-    res
-      .status(200)
-      .json({ message: "Order status created successfully", order });
+
+    // 3. MUST AWAIT SAVE
+    await order.save(); 
+
+    res.status(200).json({ message: "Order status updated successfully", order });
   } catch (error) {
     console.error("Error in updateOrderStatus controller", error.message);
     res.status(500).json({ error: "Internal server error" });
