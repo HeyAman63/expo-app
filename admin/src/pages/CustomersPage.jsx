@@ -10,7 +10,7 @@ const CustomersPage = () => {
     queryFn: customerApi.getall,
   });
 
-  console.log(data)
+  // console.log(data)
 
   const customers = data?.customers ?? [];
   return (

@@ -23,11 +23,12 @@ export const productApi = {
 
 export const orderApi = {
     getall:async()=>{
-        const [data] = await axiosInstance.get('/admin/orders');
+        const {data} = await axiosInstance.get('/admin/orders');
         return data;
     },
     updateStatus : async({orderId, status})=>{
-        const {data} = axiosInstance.patch(`/admin/orders/${orderId}/status`,{status});
+        const trimmedStatus = typeof status === 'string' ? status.trim() : status;
+        const {data} = await axiosInstance.patch(`/admin/orders/${orderId}/status`, { status: trimmedStatus });
         return data;
     }
 }

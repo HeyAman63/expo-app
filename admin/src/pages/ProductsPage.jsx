@@ -194,7 +194,7 @@ const ProductsPage = () => {
 
       {/* Add edit product model */}
 
-      <input type="checkbox" className="modal-toggle" checked={showModal} />
+      <input type="checkbox" className="modal-toggle" checked={showModal} onChange={() => {}} />
       <div className="modal">
         <div className="modal-box max-w-2xl">
           <div className="flex items-center justify-between mb-4">
