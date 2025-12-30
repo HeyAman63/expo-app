@@ -11,7 +11,7 @@ import { Image } from 'expo-image'
 import OrderSummary from '@/component/OrderSummery'
 import AddressSelectionModal from '@/component/AddressSelectionModal'
 
-const CartScreen = () => {
+export default function CartScreen(){
   const api = useApi();
   const {isAddingToCart,addToCart,cart,cartItemCount,cartTotal,clearCart,isClearing,isError,isLoading,isRemoving,isUpdating,removeFromCart,updateQuantity}=useCart();
   const {addresses} = useAddresses();
@@ -264,7 +264,6 @@ const CartScreen = () => {
   )
 }
 
-export default CartScreen;
 
 
 function LoadingUI() {
