@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/clerk-expo";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {BlurView} from 'expo-blur';
 
-const TabsLayout = () => {
+export default function TabsLayout () {
   const insets = useSafeAreaInsets();
   const { isLoaded, isSignedIn } = useAuth();
 
@@ -70,4 +70,3 @@ const TabsLayout = () => {
   );
 };
 
-export default TabsLayout;
